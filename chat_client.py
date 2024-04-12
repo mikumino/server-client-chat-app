@@ -50,7 +50,7 @@ def chat_client():
             
             else:
                 # user entered a message
-                msg = sys.stdin.readline()
+                msg = sys.stdin.readline().encode('utf-8')
                 s.send(msg)
                 sys.stdout.write('[Me] ')
                 sys.stdout.flush()
