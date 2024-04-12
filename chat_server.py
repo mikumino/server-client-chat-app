@@ -57,12 +57,9 @@ def chat_server():
                 # exception
                 except:
                     broadcast(server_socket, sock, "Client (%s, %s) is offline\n" % addr)
-
-    #This MIGHT need to be removed, making sure they're closed correctly but the server_socket.close() is unreachable otherwise
-        #I don't get why server_socket.close() was unreachable anyway, doesn't broadcast handle this..?
-        for sock in SOCKET_LIST:
-            sock.close()
-        server_socket.close()
+                    continue
+                    
+    server_socket.close()
 
 # broadcast chat messages to all connected clients
 
