@@ -44,7 +44,7 @@ def chat_client():
 
                 else:
                     #prints data
-                    sys.stdout.write(data)
+                    sys.stdout.write(data.decode('utf-8'))
                     sys.stdout.write('[Me] ')
                     sys.stdout.flush()
             

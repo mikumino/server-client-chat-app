@@ -42,7 +42,7 @@ def chat_server():
                 # process data recieved from client,
                 try:
                     # receiving data from the socket.
-                    data = sock.recv(RECV_BUFFER)
+                    data = sock.recv(RECV_BUFFER).decode('utf-8')
                     if data:
                         # there is something in the socket
                         broadcast(server_socket, sock, "\r" + '[' + str(sock.getpeername()) + '] ' + data)
@@ -69,7 +69,7 @@ def broadcast(server_socket, sock, message):
         # send the message only to peer
         if socket != server_socket and socket != sock:
             try :
-                socket.send(message)
+                socket.send(message.encode('utf-8'))
             except :
                 # broken socket connection
                 socket.close()
