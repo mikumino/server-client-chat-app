@@ -1,32 +1,31 @@
 # Chat client
 
 import tkinter as tk
+from tkinter import ttk
+import sv_ttk
 import socket
 import threading
 import select
 
-
 class GUI:
     def __init__(self, mainWindow):
+        sv_ttk.set_theme("dark")
         self.mainWindow = mainWindow
         self.mainWindow.title("Chatting Client")
 
-        self.chatBoxLabel = tk.Label(self.mainWindow, text="Chat Box", font="Intern")
-        self.chatBoxLabel.grid(row=0, column=0, padx=10, pady=0)
         self.chatBox = tk.Text(self.mainWindow, height=30, width=100)
-        self.chatBox.grid(row = 1, column = 0, padx=10, pady=10)
-        self.chatBox.config(borderwidth=2, state=tk.DISABLED)
+        self.chatBox.grid(row = 1, column = 0, padx=30, pady=30)
+        self.chatBox.config(state=tk.DISABLED, borderwidth=1, wrap=tk.WORD, font=("Intern", 12), padx=10, pady=10)
         
+        self.input = ttk.Entry(self.mainWindow,  width=100)
+        self.input.grid(row=2, column=0, padx=10, pady=10)
+        self.input.bind('<Return>', self.sendMessage)
 
-    #I don't get why it won't get bigger, messed with width, the grid, no dice.
-        self.input = tk.Entry(self.mainWindow,  width=50, bg="#b59ad1")
-        self.input.grid(row=2, column=0, padx=20, pady=20)
-        self.input.config(borderwidth=3)
+        self.sendButton = ttk.Button(self.mainWindow, text="Send", command=self.sendMessage)
+        
+        self.sendButton.config(style='Accent.TButton')
+        self.sendButton.grid(row=3, column=0, padx=10, pady=10)
 
-        self.send = tk.Button(self.mainWindow, text="Send", bg="#5f77b4", command=self.send)
-        self.send.grid(row=3, column=0, padx=10, pady=10)
-
-        #We can remove this later or leave it in, it's this while im testing it though
         self.host = 'localhost'  
         self.port = 9009 
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -50,7 +49,7 @@ class GUI:
         self.chatBox.see(tk.END)
 
 
-    def send(self):
+    def sendMessage(self, event=None):
         msg = self.input.get()
         if msg:
             try:
