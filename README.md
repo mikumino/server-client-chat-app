@@ -42,3 +42,6 @@ If you want to disconnect from the server, click the X button on the client wind
 ### Client
 ![Client](images/Screenshot_16.png)
 
+## Attribution
+
+Followed [tutorial](https://www.bogotobogo.com/python/python_network_programming_tcp_server_client_chat_server_chat_client_select.php) by BogoToBogo for basis of the server code.
