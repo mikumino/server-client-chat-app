@@ -3,6 +3,7 @@
 import tkinter as tk
 import socket
 import threading
+import select
 
 
 class GUI:
@@ -30,7 +31,6 @@ class GUI:
         self.port = 9009 
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.s.settimeout(2)
-
         try:
             self.s.connect((self.host, self.port))
         except:
@@ -63,15 +63,16 @@ class GUI:
 
     def receive(self):
         while True:
-            try:
+            socket_list = [self.s]
+            read_sockets, write_sockets, error_sockets = select.select(socket_list, [], [])
+            self.message('read_sockets: ' + str(read_sockets))
+            if read_sockets:
                 data = self.s.recv(4096)
-                if data:
-                    msg = data.decode('utf-8')
-                    self.message(msg)
-            except Exception as e:
-                self.message('\nDisconnected from chat server')
-                self.message(f'Exception {e}')
-                exit()
+                if not data:
+                    self.message('\nDisconnected from chat server')
+                    exit()
+                else:
+                    self.message(data.decode('utf-8'))
 
 
 def main():
