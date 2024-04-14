@@ -65,7 +65,6 @@ class GUI:
         while True:
             socket_list = [self.s]
             read_sockets, write_sockets, error_sockets = select.select(socket_list, [], [])
-            self.message('read_sockets: ' + str(read_sockets))
             if read_sockets:
                 data = self.s.recv(4096)
                 if not data:

@@ -55,8 +55,11 @@ def chat_server():
                         broadcast(server_socket, sock, "Client (%s, %s) is offline\n" % addr)
 
                 # exception
-                except:
+                except Exception as e:
+                    print(e)
                     broadcast(server_socket, sock, "Client (%s, %s) is offline\n" % addr)
+                    if sock in SOCKET_LIST:
+                        SOCKET_LIST.remove(sock)
                     continue
                     
     server_socket.close()
