@@ -35,50 +35,36 @@ def chat_server():
                 sockfd, addr = server_socket.accept()
                 SOCKET_LIST.append(sockfd)
                 print ("Client (%s, %s) connected" % addr)
-
                 broadcast(server_socket, sockfd, "[%s:%s] entered our chatting room\n" % addr)
-            else:
-                # process data recieved from client,
+            else:   # There's something in the socket list that's not the server socket
                 try:
-                    # receiving data from the socket.
-                    data = sock.recv(RECV_BUFFER).decode('utf-8')
-                    if data:
-                        # there is something in the socket
+                    data = sock.recv(RECV_BUFFER).decode('utf-8')   
+                    if data:    # Data exists
                         broadcast(server_socket, sock, "\r" + '[' + str(sock.getpeername()) + '] ' + data)
-                    else:
-                        # remove the socket that's broken
+                    else:   # There's a socket that's not the server socket but has no data so we remove it
                         if sock in SOCKET_LIST:
                             SOCKET_LIST.remove(sock)
-
-                        # at this stage, no data means probably the connection has been broken
                         broadcast(server_socket, sock, "Client (%s, %s) is offline\n" % addr)
 
-                # exception
+                # Exception, catches stuff like clients disconnecting
+                # Could probably be more specific but... haha
                 except Exception as e:
                     print(e)
                     broadcast(server_socket, sock, "Client (%s, %s) is offline\n" % addr)
                     if sock in SOCKET_LIST:
                         SOCKET_LIST.remove(sock)
                     continue
-                    
-    server_socket.close()
 
-# broadcast chat messages to all connected clients
-
-
+# Broadcasts a provided message from sock through server_socket to all other sockets
 def broadcast(server_socket, sock, message):
     for socket in SOCKET_LIST:
-        # send the message only to peer
-        if socket != server_socket and socket != sock:
-            try :
+        if socket != server_socket and socket != sock:  # Ensure we're not sending to the server or the sender
+            try:
                 socket.send(message.encode('utf-8'))
-            except :
-                # broken socket connection
+            except: # If the message fails to send, we remove the socket
                 socket.close()
-                # broken socket, remove it
                 if socket in SOCKET_LIST:
                     SOCKET_LIST.remove(socket)
- 
 
 chat_server()
 
