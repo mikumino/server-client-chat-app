@@ -1,0 +1,43 @@
+Hello User!
+
+To use this local server hosted client, you must first make sure you have python installed.
+In your shell write:
+
+Windows:
+python --version
+or
+python3 --version
+Linux:
+python --version
+or
+python3 --version
+
+If you have python installed, you are ready to use both programs.
+First you must ensure you're in the right directory.
+Next, you must start up the server using the terminal.
+
+Windows:
+python .\chat_server.py
+or
+python3 .\chat_server.py
+Linux:
+python chat_server.py
+or
+python3 chat_server.py
+
+Now, in a new terminal, open the client.
+
+Windows:
+python .\GUI.py
+or
+python3 .\GUI.py
+Linux:
+python GUI.py
+or
+python3 GUI.py
+
+Do this for as many clients as you're trying to connect to the server.
+To use the client there is an input box at the bottom, write what you want to send to other users in that text box and click send when finished.
+What you wrote will send to everybody's chat box and your text box will refresh itself waiting for further input.
+If you want to disconnect from the server, click the X button on the client window and close it, the server will disconnect you when you leave.
+
